@@ -2,22 +2,23 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Bienvenido</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-  background:#000;
+  background:#fff; /* fondo limpio */
   display:flex;
   flex-direction:column;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   min-height:100vh;
   font-family:'Segoe UI',sans-serif;
 }
 
+/* CONTENEDOR */
 .video-wrapper{
   position:relative;
   width:100%;
@@ -25,13 +26,19 @@ body{
   aspect-ratio:16/9;
 }
 
+/* VIDEO SIN BORDES */
 #player{
   width:100%;
   height:100%;
-  border-radius:12px;
 }
 
-/* BOTONES FLOTANTES */
+#player iframe{
+  width:100% !important;
+  height:100% !important;
+  border:none;
+}
+
+/* BOTÓN FLOTANTE */
 .buttons-overlay{
   position:absolute;
   bottom:0;
@@ -41,8 +48,6 @@ body{
   background:linear-gradient(transparent,rgba(0,0,0,0.95));
   display:flex;
   justify-content:center;
-  gap:20px;
-  flex-wrap:wrap;
 
   opacity:0;
   pointer-events:none;
@@ -55,12 +60,12 @@ body{
 }
 
 .btn{
-  padding:16px 36px;
+  padding:18px 40px;
   background:#0000FA;
   color:#fff;
   text-decoration:none;
   font-weight:bold;
-  border-radius:10px;
+  border-radius:8px;
   border:2px solid #3333ff;
   box-shadow:0 4px 22px rgba(0,0,250,0.5);
   transition:.3s;
@@ -69,6 +74,27 @@ body{
 .btn:hover{
   transform:translateY(-3px);
   box-shadow:0 10px 32px rgba(0,0,250,0.7);
+}
+
+/* BARRA */
+.timer-bar-wrap{
+  width:100%;
+  max-width:1100px;
+  height:4px;
+  background:rgba(0,0,0,0.1);
+  margin-top:6px;
+}
+
+.timer-bar{
+  height:100%;
+  width:0%;
+  background:#0000FA;
+}
+
+.timer-label{
+  color:#555;
+  font-size:12px;
+  margin-top:6px;
 }
 </style>
 </head>
@@ -83,19 +109,27 @@ body{
   <a href="https://molubacademy.moodlecloud.com/my/courses.php" target="_blank" class="btn">
     🎓 IR A MIS CURSOS
   </a>
-
-  <a href="#" target="_blank" class="btn">
-    🤖 GUÍA DEL CHATBOT
-  </a>
 </div>
 
 </div>
 
-<!-- API DE YOUTUBE -->
+<div class="timer-bar-wrap">
+<div class="timer-bar" id="timerBar"></div>
+</div>
+
+<div class="timer-label" id="timerLabel">
+▶ Presiona play para comenzar
+</div>
+
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
 let player;
+let intervalo;
+
+const bar = document.getElementById("timerBar");
+const label = document.getElementById("timerLabel");
+const overlay = document.getElementById("botonesFinales");
 
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
@@ -106,16 +140,48 @@ function onYouTubeIframeAPIReady() {
       modestbranding: 1
     },
     events: {
-      'onStateChange': onPlayerStateChange
+      onStateChange: onPlayerStateChange
     }
   });
 }
 
 function onPlayerStateChange(event) {
-  // 0 = video terminado
-  if (event.data === 0) {
-    document.getElementById('botonesFinales').classList.add('visible');
+
+  if(event.data === YT.PlayerState.PLAYING){
+    label.textContent = "▶ Reproduciendo video...";
+    iniciarBarra();
   }
+
+  if(event.data === YT.PlayerState.PAUSED){
+    clearInterval(intervalo);
+  }
+
+  if(event.data === YT.PlayerState.ENDED){
+    clearInterval(intervalo);
+    bar.style.width = "100%";
+    bar.style.background = "#00c853";
+    label.textContent = "✅ Video terminado";
+
+    overlay.classList.add("visible");
+  }
+}
+
+function iniciarBarra(){
+  clearInterval(intervalo);
+
+  intervalo = setInterval(()=>{
+    let duracion = player.getDuration();
+    let tiempo = player.getCurrentTime();
+
+    if(duracion > 0){
+      let pct = (tiempo / duracion) * 100;
+      bar.style.width = pct + "%";
+
+      let restante = duracion - tiempo;
+      label.textContent = "⏱ " + restante.toFixed(1) + "s restantes";
+    }
+
+  },100);
 }
 </script>
 
