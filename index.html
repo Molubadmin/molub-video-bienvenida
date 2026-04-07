@@ -1,187 +1,157 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bienvenido</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bienvenido</title>
 
-    body {
-      background: #000;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      font-family: 'Segoe UI', sans-serif;
-    }
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
 
-    .video-wrapper {
-      position: relative;
-      width: 640px;
-      max-width: 100%;
-    }
+body{
+  background:#000;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  font-family:'Segoe UI',sans-serif;
+}
 
-    iframe {
-      display: block;
-      width: 640px;
-      max-width: 100%;
-      height: 480px;
-      border: none;
-      border-radius: 10px;
-    }
+.video-wrapper{
+  position:relative;
+  width:640px;
+  max-width:100%;
+}
 
-    /* ── Overlay de botones ── */
-    .buttons-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding: 80px 20px 36px;
-      background: linear-gradient(transparent, rgba(0,0,0,0.93));
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      border-radius: 0 0 10px 10px;
+iframe{
+  width:100%;
+  height:480px;
+  border:none;
+  border-radius:10px;
+}
 
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1.5s ease;
-    }
+/* BOTONES */
+.buttons-overlay{
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  padding:80px 20px 36px;
+  background:linear-gradient(transparent,rgba(0,0,0,0.95));
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
 
-    .buttons-overlay.visible {
-      opacity: 1;
-      pointer-events: all;
-    }
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 1.5s ease;
+}
 
-    .btn {
-      display: inline-block;
-      padding: 16px 36px;
-      background-color: #0000FA;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      border: 2px solid #3333ff;
-      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
-      box-shadow: 0 4px 22px rgba(0,0,250,0.5);
-    }
+.buttons-overlay.visible{
+  opacity:1;
+  pointer-events:all;
+}
 
-    .btn:hover {
-      background-color: #0000cc;
-      transform: translateY(-3px);
-      box-shadow: 0 10px 32px rgba(0,0,250,0.7);
-    }
+.btn{
+  padding:16px 36px;
+  background:#0000FA;
+  color:#fff;
+  text-decoration:none;
+  font-weight:bold;
+  border-radius:8px;
+  border:2px solid #3333ff;
+  box-shadow:0 4px 22px rgba(0,0,250,0.5);
+  transition:.3s;
+}
 
-    /* ── Barra de progreso del temporizador ── */
-    .timer-bar-wrap {
-      width: 640px;
-      max-width: 100%;
-      height: 4px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 2px;
-      margin-top: 6px;
-      overflow: hidden;
-    }
+.btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 32px rgba(0,0,250,0.7);
+}
 
-    .timer-bar {
-      height: 100%;
-      width: 0%;
-      background: #0000FA;
-      border-radius: 2px;
-      transition: width linear;
-    }
+/* TIMER */
+.timer-bar-wrap{
+  width:640px;
+  max-width:100%;
+  height:4px;
+  background:rgba(255,255,255,0.1);
+  margin-top:6px;
+}
 
-    /* ── Label de tiempo ── */
-    .timer-label {
-      color: rgba(255,255,255,0.35);
-      font-size: 12px;
-      margin-top: 6px;
-      letter-spacing: 0.05em;
-    }
-  </style>
+.timer-bar{
+  height:100%;
+  width:0%;
+  background:#0000FA;
+  transition:width linear;
+}
+
+.timer-label{
+  color:rgba(255,255,255,0.4);
+  font-size:12px;
+  margin-top:6px;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="video-wrapper">
+<div class="video-wrapper">
 
-    <iframe
-      src="https://drive.google.com/file/d/1GaqMU8d9gKMmXil2ioFphRjDprdAH6gm/preview"
-      allow="autoplay"
-      allowfullscreen
-    ></iframe>
+<iframe
+src="https://www.youtube.com/embed/q2-KfM1y7F0?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1"
+allow="autoplay; encrypted-media"
+allowfullscreen>
+</iframe>
 
-    <!-- Botones con desvanecimiento -->
-    <div class="buttons-overlay" id="botonesFinales">
-      <!--
-        ✏️ CAMBIA ESTOS LINKS POR LOS TUYOS:
-      -->
-      <a href="https://molubacademy.moodlecloud.com/my/courses.php" target="_blank" class="btn">
-        🎓 IR A MIS CURSOS
-      </a>
-      <a href="https://TU-LINK-CHATBOT.com" target="_blank" class="btn">
-        🤖 GUÍA DEL CHATBOT
-      </a>
-    </div>
+<div class="buttons-overlay" id="botonesFinales">
+<a href="https://molubacademy.moodlecloud.com/my/courses.php" target="_blank" class="btn">
+🎓 IR A MIS CURSOS
+</a>
 
-  </div>
+<a href="#" target="_blank" class="btn">
+🤖 GUÍA DEL CHATBOT
+</a>
+</div>
 
-  <!-- Barra de progreso visual -->
-  <div class="timer-bar-wrap">
-    <div class="timer-bar" id="timerBar"></div>
-  </div>
-  <div class="timer-label" id="timerLabel">Cargando video...</div>
+</div>
 
-  <script>
-    // Duración exacta del video en milisegundos (16.1 segundos)
-    const DURACION_MS = 16100;
-    const INTERVALO   = 100; // tick cada 100ms = precisión de 0.1s
+<div class="timer-bar-wrap">
+<div class="timer-bar" id="timerBar"></div>
+</div>
 
-    const overlay = document.getElementById('botonesFinales');
-    const bar     = document.getElementById('timerBar');
-    const label   = document.getElementById('timerLabel');
+<div class="timer-label" id="timerLabel">▶ Reproduciendo video...</div>
 
-    let transcurrido = 0;
+<script>
+const DURACION = 17000; // 17 segundos
+const INTERVALO = 100;
 
-    label.textContent = '▶ Reproduciendo video...';
+let tiempo = 0;
+const bar = document.getElementById("timerBar");
+const label = document.getElementById("timerLabel");
+const overlay = document.getElementById("botonesFinales");
 
-    // El iframe de Drive tarda ~1.5s en cargar antes de reproducir
-    // Iniciamos el contador cuando el usuario ve el video
-    const inicio = setTimeout(() => {
-      const timer = setInterval(() => {
-        transcurrido += INTERVALO;
+const timer = setInterval(()=>{
+  tiempo += INTERVALO;
 
-        // Barra de progreso
-        const pct = Math.min((transcurrido / DURACION_MS) * 100, 100);
-        bar.style.transition = `width ${INTERVALO}ms linear`;
-        bar.style.width = pct + '%';
+  let pct = Math.min((tiempo/DURACION)*100,100);
+  bar.style.width = pct + "%";
 
-        // Segundos restantes
-        const restante = ((DURACION_MS - transcurrido) / 1000).toFixed(1);
-        if (restante > 0) {
-          label.textContent = `⏱ ${restante}s restantes`;
-        }
+  let restante = ((DURACION-tiempo)/1000).toFixed(1);
+  if(restante > 0){
+    label.textContent = "⏱ " + restante + "s restantes";
+  }
 
-        // Al terminar exactamente → botones aparecen
-        if (transcurrido >= DURACION_MS) {
-          clearInterval(timer);
-          mostrarBotones();
-        }
-      }, INTERVALO);
-    }, 1500); // espera 1.5s de carga del iframe
+  if(tiempo >= DURACION){
+    clearInterval(timer);
+    overlay.classList.add("visible");
+    label.textContent = "✅ Video terminado";
+    bar.style.background = "#00c853";
+  }
 
-    function mostrarBotones() {
-      overlay.classList.add('visible');
-      label.textContent = '✅ Video terminado';
-      bar.style.background = '#00c853';
-      bar.style.width = '100%';
-    }
-  </script>
+},INTERVALO);
+</script>
 
 </body>
 </html>
