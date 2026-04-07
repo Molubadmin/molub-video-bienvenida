@@ -14,7 +14,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Segoe UI', Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       padding: 12px;
     }
 
@@ -23,7 +23,7 @@
       width: 100%;
       max-width: 1100px;
       aspect-ratio: 16 / 9;
-      background: #f3f4f6;
+      background: #f3f3f3;
       overflow: hidden;
     }
 
@@ -34,97 +34,50 @@
       border: none;
     }
 
-    .end-overlay {
+    .buttons-overlay {
       position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0);
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 80px 20px 36px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.93));
       display: flex;
-      align-items: center;
       justify-content: center;
       opacity: 0;
       pointer-events: none;
-      transition: background 1.2s ease, opacity 1.2s ease;
+      transition: opacity 1.2s ease;
     }
 
-    .end-overlay.visible {
-      background: rgba(0, 0, 0, 0.82);
+    .buttons-overlay.visible {
       opacity: 1;
-      pointer-events: auto;
-    }
-
-    .overlay-content {
-      transform: translateY(18px);
-      opacity: 0;
-      text-align: center;
-      transition: transform 0.9s ease, opacity 0.9s ease;
-      transition-delay: 0.35s;
-      padding: 24px;
-      width: 100%;
-      max-width: 760px;
-    }
-
-    .end-overlay.visible .overlay-content {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    .overlay-title {
-      color: #ffffff;
-      font-size: 30px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-    }
-
-    .overlay-subtitle {
-      color: rgba(255,255,255,0.82);
-      font-size: 14px;
-      letter-spacing: 0.04em;
-      margin-bottom: 28px;
-    }
-
-    .buttons-box {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
+      pointer-events: all;
     }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 240px;
-      padding: 16px 30px;
-      background: linear-gradient(180deg, #1a1aff 0%, #0000FA 100%);
+      display: inline-block;
+      padding: 18px 40px;
+      background: #0000FA;
       color: #fff;
       text-decoration: none;
-      font-size: 14px;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      border-radius: 8px;
+      border: 2px solid #3333ff;
+      box-shadow: 0 4px 22px rgba(0,0,250,0.5);
+      transition: 0.3s;
       text-transform: uppercase;
-      border: 1px solid rgba(255,255,255,0.18);
-      box-shadow:
-        0 10px 30px rgba(0,0,250,0.28),
-        inset 0 1px 0 rgba(255,255,255,0.15);
-      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-      backdrop-filter: blur(4px);
+      letter-spacing: 0.04em;
     }
 
     .btn:hover {
-      transform: translateY(-2px);
-      box-shadow:
-        0 16px 40px rgba(0,0,250,0.38),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-      background: linear-gradient(180deg, #2a2aff 0%, #0000d8 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 32px rgba(0,0,250,0.7);
     }
 
     .timer-bar-wrap {
       width: 100%;
       max-width: 1100px;
       height: 4px;
-      background: rgba(0,0,0,0.12);
+      background: rgba(0,0,0,0.1);
       margin-top: 8px;
       overflow: hidden;
     }
@@ -133,7 +86,7 @@
       width: 0%;
       height: 100%;
       background: #0000FA;
-      transition: width 0.1s linear, background 0.4s ease;
+      transition: width 0.1s linear;
     }
 
     .timer-label {
@@ -141,28 +94,19 @@
       font-size: 12px;
       margin-top: 6px;
       text-align: center;
-      letter-spacing: 0.03em;
     }
 
     @media (max-width: 768px) {
-      .overlay-title {
-        font-size: 22px;
-      }
-
-      .overlay-subtitle {
-        font-size: 13px;
-        margin-bottom: 22px;
-      }
-
-      .buttons-box {
-        flex-direction: column;
-        align-items: center;
+      .buttons-overlay {
+        padding: 40px 14px 20px;
       }
 
       .btn {
         width: 100%;
         max-width: 320px;
-        min-width: unset;
+        text-align: center;
+        padding: 16px 22px;
+        font-size: 14px;
       }
     }
   </style>
@@ -178,16 +122,10 @@
       allowfullscreen>
     </iframe>
 
-    <div class="end-overlay" id="endOverlay">
-      <div class="overlay-content">
-        <div class="overlay-title">Bienvenido a Molub Academy</div>
-        <div class="overlay-subtitle">Tu video de bienvenida ha finalizado. Continúa con tu proceso de formación.</div>
-        <div class="buttons-box">
-          <a href="https://molubacademy.moodlecloud.com/my/courses.php" target="_blank" class="btn">
-            Ir a mis cursos
-          </a>
-        </div>
-      </div>
+    <div class="buttons-overlay" id="botonesFinales">
+      <a href="https://molubacademy.moodlecloud.com/my/courses.php" target="_blank" class="btn">
+        🎓 Ir a mis cursos
+      </a>
     </div>
   </div>
 
@@ -204,7 +142,7 @@
 
     const bar = document.getElementById("timerBar");
     const label = document.getElementById("timerLabel");
-    const overlay = document.getElementById("endOverlay");
+    const overlay = document.getElementById("botonesFinales");
 
     function onYouTubeIframeAPIReady() {
       player = new YT.Player("player", {
@@ -223,7 +161,6 @@
     function onPlayerStateChange(event) {
       if (event.data === YT.PlayerState.PLAYING) {
         iniciarBarra();
-        label.textContent = "▶ Reproduciendo video...";
       }
 
       if (event.data === YT.PlayerState.PAUSED) {
