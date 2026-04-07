@@ -12,13 +12,13 @@ body{
   background:#000;
   display:flex;
   flex-direction:column;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
   min-height:100vh;
   font-family:'Segoe UI',sans-serif;
 }
 
-/* CONTENEDOR MÁS GRANDE */
+/* CONTENEDOR */
 .video-wrapper{
   position:relative;
   width:100%;
@@ -34,7 +34,7 @@ iframe{
   border-radius:12px;
 }
 
-/* BOTONES */
+/* BOTONES FLOTANTES */
 .buttons-overlay{
   position:absolute;
   bottom:0;
@@ -67,7 +67,6 @@ iframe{
   border:2px solid #3333ff;
   box-shadow:0 4px 22px rgba(0,0,250,0.5);
   transition:.3s;
-  letter-spacing:0.05em;
 }
 
 .btn:hover{
@@ -75,7 +74,7 @@ iframe{
   box-shadow:0 10px 32px rgba(0,0,250,0.7);
 }
 
-/* BARRA */
+/* TIMER */
 .timer-bar-wrap{
   width:100%;
   max-width:1100px;
@@ -103,16 +102,13 @@ iframe{
 
 <div class="video-wrapper">
 
-<!-- VIDEO CON SONIDO (SIN AUTOPLAY) -->
 <iframe
-src="https://www.youtube.com/embed/q2-KfM1y7F0?controls=1&rel=0&modestbranding=1"
+src="https://www.youtube.com/embed/q2-KfM1y7F0?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1"
 allow="autoplay; encrypted-media"
 allowfullscreen>
 </iframe>
 
-<!-- BOTONES -->
 <div class="buttons-overlay" id="botonesFinales">
-
 <a href="https://molubacademy.moodlecloud.com/my/courses.php" target="_blank" class="btn">
 🎓 IR A MIS CURSOS
 </a>
@@ -120,39 +116,30 @@ allowfullscreen>
 <a href="#" target="_blank" class="btn">
 🤖 GUÍA DEL CHATBOT
 </a>
-
 </div>
 
 </div>
 
-<!-- BARRA -->
 <div class="timer-bar-wrap">
 <div class="timer-bar" id="timerBar"></div>
 </div>
 
 <div class="timer-label" id="timerLabel">
-▶ Presiona play para comenzar
+▶ Reproduciendo video...
 </div>
 
 <script>
-const DURACION = 17000;
+const DURACION = 17000; // ajusta si tu video cambia
 const INTERVALO = 100;
 
 let tiempo = 0;
-let iniciado = false;
 
 const bar = document.getElementById("timerBar");
 const label = document.getElementById("timerLabel");
 const overlay = document.getElementById("botonesFinales");
 
-/* Detecta interacción del usuario */
-window.addEventListener("click", iniciar);
-
-function iniciar(){
-  if(iniciado) return;
-  iniciado = true;
-
-  label.textContent = "▶ Reproduciendo video...";
+/* inicia automáticamente */
+setTimeout(() => {
 
   const timer = setInterval(()=>{
     tiempo += INTERVALO;
@@ -173,7 +160,8 @@ function iniciar(){
     }
 
   },INTERVALO);
-}
+
+}, 1500); // delay por carga de YouTube
 </script>
 
 </body>
