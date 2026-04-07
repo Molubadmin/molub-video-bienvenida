@@ -28,16 +28,10 @@
     }
 
     #player {
-      width: 100%;
-      height: 100%;
-      min-height: 320px;
-    }
-
-    iframe {
+      display: block;
       width: 100%;
       height: 100%;
       border: none;
-      display: block;
     }
 
     .buttons-overlay {
@@ -114,17 +108,19 @@
         padding: 16px 22px;
         font-size: 14px;
       }
-
-      #player {
-        min-height: 220px;
-      }
     }
   </style>
 </head>
 <body>
 
   <div class="video-wrapper">
-    <div id="player"></div>
+    <iframe
+      id="player"
+      src="https://www.youtube.com/embed/q2-KfM1y7F0?enablejsapi=1&rel=0&modestbranding=1"
+      title="Video de bienvenida"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
 
     <div class="buttons-overlay" id="botonesFinales">
       <a href="https://molubacademy.moodlecloud.com/my/courses.php" target="_blank" class="btn">
@@ -141,7 +137,7 @@
 
   <script src="https://www.youtube.com/iframe_api"></script>
   <script>
-    let player = null;
+    let player;
     let intervalo = null;
 
     const bar = document.getElementById("timerBar");
@@ -149,20 +145,7 @@
     const overlay = document.getElementById("botonesFinales");
 
     function onYouTubeIframeAPIReady() {
-      const origin = window.location.origin;
-
-      player = new YT.Player('player', {
-        width: '100%',
-        height: '100%',
-        videoId: 'q2-KfM1y7F0',
-        playerVars: {
-          autoplay: 0,
-          controls: 1,
-          rel: 0,
-          modestbranding: 1,
-          enablejsapi: 1,
-          origin: origin
-        },
+      player = new YT.Player("player", {
         events: {
           onReady: onPlayerReady,
           onStateChange: onPlayerStateChange,
@@ -172,7 +155,7 @@
     }
 
     function onPlayerReady() {
-      label.textContent = '▶ Presiona play para comenzar';
+      label.textContent = "▶ Presiona play para comenzar";
     }
 
     function onPlayerStateChange(event) {
@@ -182,34 +165,34 @@
 
       if (event.data === YT.PlayerState.PAUSED) {
         detenerBarra();
-        label.textContent = '⏸ Video pausado';
+        label.textContent = "⏸ Video pausado";
       }
 
       if (event.data === YT.PlayerState.ENDED) {
         detenerBarra();
-        bar.style.width = '100%';
-        bar.style.background = '#00c853';
-        label.textContent = '✅ Video terminado';
-        overlay.classList.add('visible');
+        bar.style.width = "100%";
+        bar.style.background = "#00c853";
+        label.textContent = "✅ Video terminado";
+        overlay.classList.add("visible");
       }
     }
 
     function onPlayerError() {
-      label.textContent = '⚠ No se pudo cargar el video. Recarga la página.';
+      label.textContent = "⚠ Error al cargar el video";
     }
 
     function iniciarBarra() {
       detenerBarra();
 
       intervalo = setInterval(() => {
-        if (!player || typeof player.getCurrentTime !== 'function') return;
+        if (!player || typeof player.getCurrentTime !== "function") return;
 
         const duracion = player.getDuration();
         const tiempo = player.getCurrentTime();
 
         if (duracion > 0) {
           const pct = Math.min((tiempo / duracion) * 100, 100);
-          bar.style.width = pct + '%';
+          bar.style.width = pct + "%";
 
           const restante = Math.max(duracion - tiempo, 0);
           label.textContent = `⏱ ${restante.toFixed(1)}s restantes`;
